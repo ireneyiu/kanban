@@ -72,6 +72,24 @@
         });
 
         return select;
+      },
+      events: {
+        'change #filter select': 'setFilter'
+      },
+      setFilter: function(e) {
+        this.filterStatus = e.currentTarget.value;
+        this.trigger('change:filterStatus');
+      },
+      filterByStatus: function() {
+        if (this.filterStatus == 'all') {
+          this.collection.reset(cards);
+        } else {
+          this.collection.reset(cards, { silent: true });
+          var filterStatus = this.filterStatus,
+            filtered = _.filter(this.collection.models, function(item) {
+            return item.get('status').toLowerCase() === filterStatus;
+          });
+        }
       }
     });
 
