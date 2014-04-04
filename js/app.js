@@ -1,6 +1,6 @@
 (function ($) {
  
-    var kanban = [
+    var cards = [
         { title: "Task 1", description: "Get this thing done!", status: "notStarted" },
         { title: "Task 2", description: "Get this thing done!", status: "notStarted" },
         { title: "Task 3", description: "Get this thing done!", status: "inProgress" },
@@ -53,5 +53,7 @@
         this.$el.append(cardView.render().el);
       }
     });
+
+    var kanban = new KanbanView();
  
 } (jQuery));
