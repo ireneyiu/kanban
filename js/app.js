@@ -33,5 +33,25 @@
         return this;
       }
     });
+
+    var KanbanView = Backbone.View.extend({
+      el: $("#cards"),
+      initialize: function() {
+        this.collection = new Kanban(cards);
+        this.render();
+      },
+      render: function() {
+        var self = this;
+        _.each(this.collection.models, function(item) {
+          self.renderCard(item);
+        }, this);
+      },
+      renderCard: function(item) {
+        var cardView = new CardView({
+          model: item
+        });
+        this.$el.append(cardView.render().el);
+      }
+    });
  
 } (jQuery));

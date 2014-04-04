@@ -5,7 +5,11 @@
     <title>Kanban</title>
   </head>
   <body>
-    <div id="boards"></div>
+    <div id="cards"></div>
+    <script id="contactTemplate" type="text/template">
+      <h1><%= title %></h1>
+      <p><%= description %></p>
+    </script>
     <script src="js/jquery.js"></script>
     <script src="js/underscore.js"></script>
     <script src="js/backbone.js"></script>
