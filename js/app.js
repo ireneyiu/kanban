@@ -22,14 +22,12 @@
     });
 
     var CardView = Backbone.View.extend({
-      tagname: "article",
+      tagName: "article",
       className: "card-container",
-      template: $("#cardTemplate").html(),
+      template: _.template($("#cardTemplate").html()),
 
       render: function() {
-        var tmpl = _.template(this.template);
-
-        this.$el.html(tmpl(this.model.toJSON()));
+        this.$el.html(this.template(this.model.toJSON()));
         return this;
       }
     });
@@ -40,11 +38,14 @@
         this.collection = new Kanban(cards);
         this.render();
         this.$el.find('#filter').append(this.createSelect());
+        this.on("change:filterStatus", this.filterByStatus, this);
+        this.collection.on("reset", this.render, this);
       },
       render: function() {
-        var self = this;
+        this.$el.find("article").remove();
+
         _.each(this.collection.models, function(item) {
-          self.renderCard(item);
+          this.renderCard(item);
         }, this);
       },
       renderCard: function(item) {
@@ -54,20 +55,17 @@
         this.$el.append(cardView.render().el);
       },
       getStatuses: function() {
-        return _.uniq(this.collection.pluck("status"), false, function(status) {
-          return status.toLowerCase();
-        });
+        return _.uniq(this.collection.pluck("status"));
       },
       createSelect: function() {
-        var filter = this.$el.find('#filter'),
-          select = $('<select/>', {
+        var select = $('<select/>', {
             html: "<option>All</option>"
           });
 
         _.each(this.getStatuses(), function(item) {
           var option = $('<option/>', {
-            value: item.toLowerCase(),
-            text: item.toLowerCase()
+            value: item,
+            text: item
           }).appendTo(select);
         });
 
@@ -81,14 +79,15 @@
         this.trigger('change:filterStatus');
       },
       filterByStatus: function() {
-        if (this.filterStatus == 'all') {
+        if (this.filterStatus == 'All') {
           this.collection.reset(cards);
         } else {
           this.collection.reset(cards, { silent: true });
           var filterStatus = this.filterStatus,
             filtered = _.filter(this.collection.models, function(item) {
-            return item.get('status').toLowerCase() === filterStatus;
-          });
+              return item.get('status') === filterStatus;
+            });
+          this.collection.reset(filtered);
         }
       }
     });
