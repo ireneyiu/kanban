@@ -39,6 +39,7 @@
       initialize: function() {
         this.collection = new Kanban(cards);
         this.render();
+        this.$el.find('#filter').append(this.createSelect());
       },
       render: function() {
         var self = this;
@@ -51,6 +52,26 @@
           model: item
         });
         this.$el.append(cardView.render().el);
+      },
+      getStatuses: function() {
+        return _.uniq(this.collection.pluck("status"), false, function(status) {
+          return status.toLowerCase();
+        });
+      },
+      createSelect: function() {
+        var filter = this.$el.find('#filter'),
+          select = $('<select/>', {
+            html: "<option>All</option>"
+          });
+
+        _.each(this.getStatuses(), function(item) {
+          var option = $('<option/>', {
+            value: item.toLowerCase(),
+            text: item.toLowerCase()
+          }).appendTo(select);
+        });
+
+        return select;
       }
     });
 

@@ -5,7 +5,11 @@
     <title>Kanban</title>
   </head>
   <body>
-    <div id="cards"></div>
+    <div id="cards">
+      <header>
+        <div id="filter"><label>Show me:</label></div>
+      </header>
+    </div>
     <script id="cardTemplate" type="text/template">
       <h1><%= title %></h1>
       <p><%= description %></p>
