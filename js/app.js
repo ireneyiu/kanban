@@ -81,6 +81,7 @@
       filterByStatus: function() {
         if (this.filterStatus == 'All') {
           this.collection.reset(cards);
+          kanbanRouter.navigate("filter/all");
         } else {
           this.collection.reset(cards, { silent: true });
           var filterStatus = this.filterStatus,
@@ -88,10 +89,24 @@
               return item.get('status') === filterStatus;
             });
           this.collection.reset(filtered);
+          kanbanRouter.navigate("filter/" + filterStatus);
         }
       }
     });
 
+    var KanbanRouter = Backbone.Router.extend({
+      routes: {
+        "filter/:status": "urlFilter"
+      },
+      urlFilter: function(status) {
+        kanban.filterStatus = status;
+        kanban.trigger("change:filterStatus");
+      }
+    });
+
     var kanban = new KanbanView();
+    var kanbanRouter = new KanbanRouter();
+
+    Backbone.history.start();
  
 } (jQuery));
