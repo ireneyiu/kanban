@@ -44,6 +44,11 @@
 
     var KanbanView = Backbone.View.extend({
       el: $("#cards"),
+      events: {
+        'change #filter select': 'setFilter',
+        'click #add': 'addCard',
+        'click #showForm': 'showForm'
+      },
       initialize: function() {
         this.collection = new Kanban(cards);
         this.render();
@@ -82,10 +87,6 @@
         });
 
         return select;
-      },
-      events: {
-        'change #filter select': 'setFilter',
-        'click #add': 'addCard'
       },
       setFilter: function(e) {
         this.filterStatus = e.currentTarget.value;
@@ -128,6 +129,9 @@
             cards.splice(_.indexOf(cards, item), 1);
           }
         });
+      },
+      showForm: function() {
+        this.$el.find('#addCard').slideToggle();
       }
     });
 
