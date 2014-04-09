@@ -37,9 +37,10 @@
       initialize: function() {
         this.collection = new Kanban(cards);
         this.render();
-        this.$el.find('#filter').append(this.createSelect());
+        this.$el.find("#filter").append(this.createSelect());
         this.on("change:filterStatus", this.filterByStatus, this);
         this.collection.on("reset", this.render, this);
+        this.collection.on("add", this.renderCard, this);
       },
       render: function() {
         this.$el.find("article").remove();
