@@ -72,7 +72,8 @@
         return select;
       },
       events: {
-        'change #filter select': 'setFilter'
+        'change #filter select': 'setFilter',
+        'click #add': 'addCard'
       },
       setFilter: function(e) {
         this.filterStatus = e.currentTarget.value;
@@ -90,6 +91,22 @@
             });
           this.collection.reset(filtered);
           kanbanRouter.navigate("filter/" + filterStatus);
+        }
+      },
+      addCard: function(e) {
+        e.preventDefault();
+        var formData = {};
+        $('#addCard').children('input').each(function(i, el) {
+          if ($(el).val() !== "") {
+            formData[el.id] = $(el).val();
+          }
+        });
+        cards.push(formData);
+        if (_.indexOf(this.getStatuses(), formData.type) === -1) {
+          this.collection.add(new Card(formData));
+          this.$el.find('#filter').find('select').remove().end().append(this.createSelect());
+        } else {
+          this.collection.add(new Card(formData));
         }
       }
     });

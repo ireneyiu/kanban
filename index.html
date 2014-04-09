@@ -9,6 +9,11 @@
       <header>
         <div id="filter"><label>Show me:</label></div>
       </header>
+      <form id="addCard" action="#">
+        <label for="title">Title:</label><input id="title" type="text" />
+        <label for="description">Description:</label><input id="description" type="text" />
+        <button id="add">Add</button>
+    </form>
     </div>
     <script id="cardTemplate" type="text/template">
       <h1><%= title %></h1>
