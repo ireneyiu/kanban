@@ -63,6 +63,25 @@
             "class": "status"
           }).insertAfter(this.$el.find(".title")).focus();
         }
+      },
+      saveEdits: function(e) {
+        e.preventDefault();
+        var formData = {},
+          prev = this.model.previousAttributes();
+
+        $(e.target).closest("form").find(":input").each(function() {
+          var el = $(this);
+          formData[el.attr("class")] = el.val();
+        });
+
+        this.model.set(formData);
+        this.render();
+
+        _.each(cards, function(card) {
+          if (_.isEqual(card, prev)) {
+            cards.splice(_.indexOf(cards, card), 1, formData);
+          }
+        });
       }
     });
 
