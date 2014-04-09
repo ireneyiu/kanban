@@ -82,6 +82,9 @@
             cards.splice(_.indexOf(cards, card), 1, formData);
           }
         });
+      },
+      cancelEdit: function() {
+        this.render();
       }
     });
 
