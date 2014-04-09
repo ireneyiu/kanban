@@ -55,7 +55,14 @@
 
         this.select = kanban.createSelect().addClass("status").val(this.$el.find("#type").val()).append(newOpt).insertAfter(this.$el.find(".title"));
         this.$el.find("input[type='hidden']").remove();
-
+      },
+      addStatus: function() {
+        if (this.select.val() === "addStatus") {
+          this.select.remove();
+          $("<input/>", {
+            "class": "status"
+          }).insertAfter(this.$el.find(".title")).focus();
+        }
       }
     });
 
