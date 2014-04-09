@@ -25,20 +25,37 @@
       tagName: "article",
       className: "card-container",
       template: _.template($("#cardTemplate").html()),
+      editTemplate: _.template($("#editTemplate").html()),
       events: {
-        "click button.delete": "deleteContact"
+        "click button.delete": "deleteCard",
+        "click button.edit": "editCard",
+        "change select.status": "addStatus",
+        "click button.save": "saveEdits",
+        "click button.cancel": "cancelEdit"
       },
       render: function() {
         this.$el.html(this.template(this.model.toJSON()));
         return this;
       },
-      deleteContact: function() {
+      deleteCard: function() {
         var removedStatus = this.model.get("status");
         this.model.destroy();
         this.remove();
         if (_.indexOf(kanban.getStatuses(), removedStatus) === -1) {
           kanban.$el.find("#filter select").children();
         }
+      },
+      editCard: function() {
+        this.$el.html(this.editTemplate(this.model.toJSON()));
+
+        var newOpt = $("<option/>", {
+          html: "<em>Add new...</em>",
+          value: "addStatus"
+        });
+
+        this.select = kanban.createSelect().addClass("status").val(this.$el.find("#type").val()).append(newOpt).insertAfter(this.$el.find(".title"));
+        this.$el.find("input[type='hidden']").remove();
+
       }
     });
 

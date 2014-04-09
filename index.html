@@ -14,12 +14,22 @@
         <label for="title">Title:</label><input id="title" type="text" />
         <label for="description">Description:</label><input id="description" type="text" />
         <button id="add">Add</button>
-    </form>
+      </form>
     </div>
     <script id="cardTemplate" type="text/template">
       <h1><%= title %></h1>
       <p><%= description %></p>
       <button class="delete">Delete</button>
+      <button class="edit">Edit</button>
+    </script>
+    <script id="editTemplate" type="text/template">
+      <form action="#">
+          <input class="title" value="<%= title %>" />
+          <input class="name" value="<%= name %>" />
+          <input id="status" type="hidden" value="<%= status %>" />
+          <button class="save">Save</button>
+          <button class="cancel">Cancel</button>
+      </form>
     </script>
     <script src="js/jquery.js"></script>
     <script src="js/underscore.js"></script>
