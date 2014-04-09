@@ -25,10 +25,20 @@
       tagName: "article",
       className: "card-container",
       template: _.template($("#cardTemplate").html()),
-
+      events: {
+        "click button.delete": "deleteContact"
+      },
       render: function() {
         this.$el.html(this.template(this.model.toJSON()));
         return this;
+      },
+      deleteContact: function() {
+        var removedStatus = this.model.get("status");
+        this.model.destroy();
+        this.remove();
+        if (_.indexOf(kanban.getStatuses(), removedStatus) === -1) {
+          kanban.$el.find("#filter select").children();
+        }
       }
     });
 
@@ -41,6 +51,7 @@
         this.on("change:filterStatus", this.filterByStatus, this);
         this.collection.on("reset", this.render, this);
         this.collection.on("add", this.renderCard, this);
+        this.collection.on("remove", this.removeCard, this);
       },
       render: function() {
         this.$el.find("article").remove();
@@ -109,6 +120,14 @@
         } else {
           this.collection.add(new Card(formData));
         }
+      },
+      removeCard: function(card) {
+        var removed = card.attributes;
+        _.each(cards, function(item) {
+          if (_.isEqual(item, removed)) {
+            cards.splice(_.indexOf(cards, item), 1);
+          }
+        });
       }
     });
 
