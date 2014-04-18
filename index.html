@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <div id="cards">
-      <header>
+    <section id="todo">
+       <header>
         <a id="showForm" href="#">Add new card</a>
         <div id="filter"><label>Show me:</label></div>
       </header>
@@ -16,7 +16,11 @@
         <label for="description">Description:</label><input id="description" type="text" />
         <button id="add">Add</button>
       </form>
-    </div>
+    </section>
+    <section id="doing">
+    </section>
+    <section id="done">
+    </section>
     <script id="cardTemplate" type="text/template">
       <h1><%= title %></h1>
       <p><%= description %></p>

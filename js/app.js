@@ -89,7 +89,7 @@
     });
 
     var KanbanView = Backbone.View.extend({
-      el: $("#cards"),
+      el: $("#todo"),
       events: {
         'change #filter select': 'setFilter',
         'click #add': 'addCard',
