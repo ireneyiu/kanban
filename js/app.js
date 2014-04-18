@@ -1,14 +1,20 @@
 (function ($) {
  
-    var cards = [
-        { title: "Task 1", description: "Get this thing done!", status: "todo" },
-        { title: "Task 2", description: "Get this thing done!", status: "todo" },
-        { title: "Task 3", description: "Get this thing done!", status: "doing" },
-        { title: "Task 4", description: "Get this thing done!", status: "done" },
-        { title: "Task 5", description: "Get this thing done!", status: "todo" },
-        { title: "Task 6", description: "Get this thing done!", status: "done" },
-        { title: "Task 7", description: "Get this thing done!", status: "doing" },
-        { title: "Task 8", description: "Get this thing done!", status: "todo" }
+    var todoCards = [
+      { title: "Task 1", description: "Get this thing done!", status: "todo" },
+      { title: "Task 2", description: "Get this thing done!", status: "todo" },
+      { title: "Task 5", description: "Get this thing done!", status: "todo" },
+      { title: "Task 8", description: "Get this thing done!", status: "todo" }
+    ];
+
+    var doingCards = [
+      { title: "Task 3", description: "Get this thing done!", status: "doing" },
+      { title: "Task 7", description: "Get this thing done!", status: "doing" }
+    ];
+
+    var doneCards = [
+      { title: "Task 4", description: "Get this thing done!", status: "done" },
+      { title: "Task 6", description: "Get this thing done!", status: "done" }
     ];
 
     var Card = Backbone.Model.extend({
@@ -74,7 +80,6 @@
         'click #showForm': 'showForm'
       },
       initialize: function() {
-        this.collection = new Kanban(cards);
         this.render();
         this.collection.on("reset", this.render, this);
         this.collection.on("add", this.renderCard, this);
@@ -117,9 +122,9 @@
       }
     });
 
-    var todo = new ColumnView({el: '#todo'});
-    var doing = new ColumnView({el: '#doing'});
-    var done = new ColumnView({el: '#done'});
+    var todo = new ColumnView({el: '#todo', collection: new Kanban(todoCards)});
+    var doing = new ColumnView({el: '#doing', collection: new Kanban(doingCards)});
+    var done = new ColumnView({el: '#done', collection: new Kanban(doneCards)});
 
     Backbone.history.start();
  
