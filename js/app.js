@@ -75,6 +75,9 @@
     });
 
     var ColumnView = Backbone.View.extend({
+      tagName: "section",
+      className: "kanban-column",
+      template: _.template($("#columnTemplate").html()),
       events: {
         'click #add': 'addCard',
         'click #showForm': 'showForm'
@@ -86,11 +89,12 @@
         this.collection.on("remove", this.removeCard, this);
       },
       render: function() {
-        this.$el.find("article").remove();
-
+    //    this.$el.find("article").remove();
+        this.$el.html(this.template());
         _.each(this.collection.models, function(item) {
           this.renderCard(item);
         }, this);
+        return this;
       },
       renderCard: function(item) {
         var cardView = new CardView({

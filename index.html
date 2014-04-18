@@ -7,10 +7,7 @@
   </head>
   <body>
     <section id="todo" class="kanban-column">
-       <header>
-        <a id="showForm" href="#">Add new card</a>
-        <div id="filter"><label>Show me:</label></div>
-      </header>
+      <a id="showForm" href="#">Add new card</a>
       <form id="addCard" action="#">
         <label for="title">Title:</label><input id="title" type="text" />
         <label for="description">Description:</label><input id="description" type="text" />
@@ -21,6 +18,14 @@
     </section>
     <section id="done" class="kanban-column">
     </section>
+    <script id="columnTemplate" type="text/template">
+      <a id="showForm" href="#">Add new card</a>
+      <form id="addCard" action="#">
+        <label for="title">Title:</label><input id="title" type="text" />
+        <label for="description">Description:</label><input id="description" type="text" />
+        <button id="add">Add</button>
+      </form>
+    </script>
     <script id="cardTemplate" type="text/template">
       <h1><%= title %></h1>
       <p><%= description %></p>
