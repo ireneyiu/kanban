@@ -3,10 +3,10 @@
 	<head>
     <meta charset="utf-8">
     <title>Kanban</title>
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/application.css" />
   </head>
   <body>
-    <section id="todo">
+    <section id="todo" class="kanban-column">
        <header>
         <a id="showForm" href="#">Add new card</a>
         <div id="filter"><label>Show me:</label></div>
@@ -17,9 +17,9 @@
         <button id="add">Add</button>
       </form>
     </section>
-    <section id="doing">
+    <section id="doing" class="kanban-column">
     </section>
-    <section id="done">
+    <section id="done" class="kanban-column">
     </section>
     <script id="cardTemplate" type="text/template">
       <h1><%= title %></h1>
