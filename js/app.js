@@ -29,7 +29,6 @@
       events: {
         "click button.delete": "deleteCard",
         "click button.edit": "editCard",
-        "change select.status": "addStatus",
         "click button.save": "saveEdits",
         "click button.cancel": "cancelEdit"
       },
@@ -41,9 +40,6 @@
         var removedStatus = this.model.get("status");
         this.model.destroy();
         this.remove();
-        if (_.indexOf(kanban.getStatuses(), removedStatus) === -1) {
-          kanban.$el.find("#filter select").children();
-        }
       },
       editCard: function() {
         this.$el.html(this.editTemplate(this.model.toJSON()));
@@ -53,16 +49,7 @@
           value: "addStatus"
         });
 
-        this.select = kanban.createSelect().addClass("status").val(this.$el.find("#type").val()).append(newOpt).insertAfter(this.$el.find(".title"));
         this.$el.find("input[type='hidden']").remove();
-      },
-      addStatus: function() {
-        if (this.select.val() === "addStatus") {
-          this.select.remove();
-          $("<input/>", {
-            "class": "status"
-          }).insertAfter(this.$el.find(".title")).focus();
-        }
       },
       saveEdits: function(e) {
         e.preventDefault();
@@ -88,17 +75,15 @@
       }
     });
 
-    var KanbanView = Backbone.View.extend({
+    var ColumnView = Backbone.View.extend({
       el: $("#todo"),
       events: {
-        'change #filter select': 'setFilter',
         'click #add': 'addCard',
         'click #showForm': 'showForm'
       },
       initialize: function() {
         this.collection = new Kanban(cards);
         this.render();
-        this.$el.find("#filter").append(this.createSelect());
         this.on("change:filterStatus", this.filterByStatus, this);
         this.collection.on("reset", this.render, this);
         this.collection.on("add", this.renderCard, this);
@@ -119,20 +104,6 @@
       },
       getStatuses: function() {
         return _.uniq(this.collection.pluck("status"));
-      },
-      createSelect: function() {
-        var select = $('<select/>', {
-            html: "<option>All</option>"
-          });
-
-        _.each(this.getStatuses(), function(item) {
-          var option = $('<option/>', {
-            value: item,
-            text: item
-          }).appendTo(select);
-        });
-
-        return select;
       },
       setFilter: function(e) {
         this.filterStatus = e.currentTarget.value;
@@ -161,12 +132,7 @@
           }
         });
         cards.push(formData);
-        if (_.indexOf(this.getStatuses(), formData.type) === -1) {
-          this.collection.add(new Card(formData));
-          this.$el.find('#filter').find('select').remove().end().append(this.createSelect());
-        } else {
-          this.collection.add(new Card(formData));
-        }
+        this.collection.add(new Card(formData));
       },
       removeCard: function(card) {
         var removed = card.attributes;
@@ -191,7 +157,7 @@
       }
     });
 
-    var kanban = new KanbanView();
+    var kanban = new ColumnView();
     var kanbanRouter = new KanbanRouter();
 
     Backbone.history.start();
