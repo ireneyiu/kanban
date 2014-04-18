@@ -37,18 +37,11 @@
         return this;
       },
       deleteCard: function() {
-        var removedStatus = this.model.get("status");
         this.model.destroy();
         this.remove();
       },
       editCard: function() {
         this.$el.html(this.editTemplate(this.model.toJSON()));
-
-        var newOpt = $("<option/>", {
-          html: "<em>Add new...</em>",
-          value: "addStatus"
-        });
-
         this.$el.find("input[type='hidden']").remove();
       },
       saveEdits: function(e) {
@@ -84,7 +77,6 @@
       initialize: function() {
         this.collection = new Kanban(cards);
         this.render();
-        this.on("change:filterStatus", this.filterByStatus, this);
         this.collection.on("reset", this.render, this);
         this.collection.on("add", this.renderCard, this);
         this.collection.on("remove", this.removeCard, this);
@@ -101,27 +93,6 @@
           model: item
         });
         this.$el.append(cardView.render().el);
-      },
-      getStatuses: function() {
-        return _.uniq(this.collection.pluck("status"));
-      },
-      setFilter: function(e) {
-        this.filterStatus = e.currentTarget.value;
-        this.trigger('change:filterStatus');
-      },
-      filterByStatus: function() {
-        if (this.filterStatus == 'All') {
-          this.collection.reset(cards);
-          kanbanRouter.navigate("filter/all");
-        } else {
-          this.collection.reset(cards, { silent: true });
-          var filterStatus = this.filterStatus,
-            filtered = _.filter(this.collection.models, function(item) {
-              return item.get('status') === filterStatus;
-            });
-          this.collection.reset(filtered);
-          kanbanRouter.navigate("filter/" + filterStatus);
-        }
       },
       addCard: function(e) {
         e.preventDefault();
@@ -147,18 +118,7 @@
       }
     });
 
-    var KanbanRouter = Backbone.Router.extend({
-      routes: {
-        "filter/:status": "urlFilter"
-      },
-      urlFilter: function(status) {
-        kanban.filterStatus = status;
-        kanban.trigger("change:filterStatus");
-      }
-    });
-
     var kanban = new ColumnView();
-    var kanbanRouter = new KanbanRouter();
 
     Backbone.history.start();
  
