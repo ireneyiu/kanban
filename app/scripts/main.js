@@ -62,12 +62,6 @@
 
         this.model.set(formData);
         this.render();
-
-        _.each(cards, function(card) {
-          if (_.isEqual(card, prev)) {
-            cards.splice(_.indexOf(cards, card), 1, formData);
-          }
-        });
       },
       cancelEdit: function() {
         this.render();
@@ -110,16 +104,7 @@
             formData[el.id] = $(el).val();
           }
         });
-        cards.push(formData);
         this.collection.add(new Card(formData));
-      },
-      removeCard: function(card) {
-        var removed = card.attributes;
-        _.each(cards, function(item) {
-          if (_.isEqual(item, removed)) {
-            cards.splice(_.indexOf(cards, item), 1);
-          }
-        });
       },
       showForm: function() {
         this.$el.find('#addCard').slideToggle();
