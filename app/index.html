@@ -35,13 +35,11 @@
         <script id="columnTemplate" type="text/template">
           <a id="showForm" href="#">Add new card</a>
           <form id="addCard" action="#">
-            <label for="title">Title:</label><input id="title" type="text" />
-            <label for="description">Description:</label><input id="description" type="text" />
+            <textarea id="description"></textarea>
             <button id="add">Add</button>
           </form>
         </script>
         <script id="cardTemplate" type="text/template">
-          <h1><%= title %></h1>
           <p><%= description %></p>
           <label><%= status %></label>
           <button class="delete">Delete</button>
@@ -49,8 +47,7 @@
         </script>
         <script id="editTemplate" type="text/template">
           <form action="#">
-              <input class="title" value="<%= title %>" />
-              <input class="description" value="<%= description %>" />
+              <textarea class="description"><%= description %></textarea>
               <input id="status" type="hidden" value="<%= status %>" />
               <button class="save">Save</button>
               <button class="cancel">Cancel</button>

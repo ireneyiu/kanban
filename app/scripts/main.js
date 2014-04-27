@@ -1,20 +1,19 @@
 (function ($) {
- 
     var todoCards = [
-      { title: "Task 1", description: "Get this thing done!", status: "todo" },
-      { title: "Task 2", description: "Get this thing done!", status: "todo" },
-      { title: "Task 5", description: "Get this thing done!", status: "todo" },
-      { title: "Task 8", description: "Get this thing done!", status: "todo" }
+      { description: "Get this thing done!", status: "todo" },
+      { description: "Get this thing done!", status: "todo" },
+      { description: "Get this thing done!", status: "todo" },
+      { description: "Get this thing done!", status: "todo" }
     ];
 
     var doingCards = [
-      { title: "Task 3", description: "Get this thing done!", status: "doing" },
-      { title: "Task 7", description: "Get this thing done!", status: "doing" }
+      { description: "Get this thing done!", status: "doing" },
+      { description: "Get this thing done!", status: "doing" }
     ];
 
     var doneCards = [
-      { title: "Task 4", description: "Get this thing done!", status: "done" },
-      { title: "Task 6", description: "Get this thing done!", status: "done" }
+      { description: "Get this thing done!", status: "done" },
+      { description: "Get this thing done!", status: "done" }
     ];
 
     var Card = Backbone.Model.extend({
@@ -83,7 +82,6 @@
         this.collection.on("remove", this.removeCard, this);
       },
       render: function() {
-    //    this.$el.find("article").remove();
         this.$el.html(this.template());
         _.each(this.collection.models, function(item) {
           this.renderCard(item);
@@ -99,7 +97,7 @@
       addCard: function(e) {
         e.preventDefault();
         var formData = {};
-        $('#addCard').children('input').each(function(i, el) {
+        $('#addCard').children('textarea').each(function(i, el) {
           if ($(el).val() !== "") {
             formData[el.id] = $(el).val();
           }
