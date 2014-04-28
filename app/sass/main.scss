@@ -32,5 +32,5 @@ body {
 }
 
 .kanban-column {
-    @include span-columns(3);
+    @include span-columns(4);
 }
