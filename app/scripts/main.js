@@ -92,7 +92,7 @@
         var cardView = new CardView({
           model: item
         });
-        this.$el.append(cardView.render().el);
+        this.$el.find('.cards').append(cardView.render().el);
       },
       addCard: function(e) {
         e.preventDefault();
