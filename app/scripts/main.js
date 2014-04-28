@@ -96,10 +96,10 @@
       },
       addCard: function(e) {
         e.preventDefault();
-        var formData = {};
-        $('#addCard').children('textarea').each(function(i, el) {
-          if ($(el).val() !== "") {
-            formData[el.id] = $(el).val();
+        var formData = {};2
+        this.$el.find('#addCard').children('textarea').each(function(i, el) {
+          if ($el.val() !== "") {
+            formData[el.id] = $el.val();
           }
         });
         this.collection.add(new Card(formData));
