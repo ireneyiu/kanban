@@ -96,10 +96,10 @@
       },
       addCard: function(e) {
         e.preventDefault();
-        var formData = {};2
+        var formData = {};
         this.$el.find('#addCard').children('textarea').each(function(i, el) {
           if ($(el).val() !== "") {
-            formData[el.id] = $(el).val();
+            formData[$(el).attr("class")] = $(el).val();
           }
         });
         this.collection.add(new Card(formData));
