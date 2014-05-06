@@ -29,10 +29,27 @@ body {
   color: #000;
   padding: 0.2em 0; }
 
+body {
+  max-width: 68em;
+  margin-left: auto;
+  margin-right: auto; }
+  body:after {
+    content: "";
+    display: table;
+    clear: both; }
+
 .kanban-column {
   float: left;
   display: block;
   margin-right: 2.35765%;
   width: 31.76157%; }
+  @media screen and (max-width: 768px) {
+    .kanban-column {
+      float: left;
+      display: block;
+      margin-right: 3.57866%;
+      width: 151.78933%; }
+      .kanban-column:last-child {
+        margin-right: 0; } }
   .kanban-column:last-child {
     margin-right: 0; }
