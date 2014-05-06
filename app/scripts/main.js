@@ -22,7 +22,7 @@
       }
     });
 
-    var Kanban = Backbone.Collection.extend({
+    var CardCollection = Backbone.Collection.extend({
       model: Card
     });
 
@@ -67,22 +67,15 @@
       }
     });
 
-    var ColumnView = Backbone.View.extend({
-      tagName: "section",
-      className: "kanban-column",
-      template: _.template($("#columnTemplate").html()),
-      events: {
-        'click #add': 'addCard',
-        'click #showForm': 'showForm'
-      },
+		var CardCollectionView = Backbone.View.extend({
+			tagName: "section",
+      className: "cards",
       initialize: function() {
-        this.render();
         this.collection.on("reset", this.render, this);
         this.collection.on("add", this.renderCard, this);
         this.collection.on("remove", this.removeCard, this);
       },
       render: function() {
-        this.$el.html(this.template());
         _.each(this.collection.models, function(item) {
           this.renderCard(item);
         }, this);
@@ -92,7 +85,31 @@
         var cardView = new CardView({
           model: item
         });
-        this.$el.find('.cards').append(cardView.render().el);
+        this.$el.append(cardView.render().el);
+      },
+      addCard: function(item) {
+        this.collection.add(new Card(item));
+      },
+		});
+
+		var Column = Backbone.Model.extend({});
+
+    var ColumnView = Backbone.View.extend({
+      tagName: "section",
+      className: "kanban-column",
+      template: _.template($("#columnTemplate").html()),
+      events: {
+        'click #add': 'addCard',
+        'click #showForm': 'showForm'
+      },
+      initialize: function(options) {
+      	this.cardCollectionView = options.cardCollectionView;
+        this.render();
+      },
+      render: function() {
+      	this.$el.html(this.template(this.model.toJSON()));
+        this.$el.append(this.cardCollectionView.render().el);
+        return this;
       },
       addCard: function(e) {
         e.preventDefault();
@@ -102,17 +119,19 @@
             formData[$(el).attr("class")] = $(el).val();
           }
         });
-        this.collection.add(new Card(formData));
+        this.cardCollectionView.addCard(formData);
       },
       showForm: function() {
         this.$el.find('#addCard').slideToggle();
       }
     });
 
-    var todo = new ColumnView({el: '#todo', collection: new Kanban(todoCards)});
-    var doing = new ColumnView({el: '#doing', collection: new Kanban(doingCards)});
-    var done = new ColumnView({el: '#done', collection: new Kanban(doneCards)});
+    var todoCards = new CardCollectionView({collection: new CardCollection(todoCards)});
+    var doingCards = new CardCollectionView({collection: new CardCollection(doingCards)});
+    var doneCards = new CardCollectionView({collection: new CardCollection(doneCards)});
 
-    Backbone.history.start();
+    var todoColumn = new ColumnView({el: '#todo', model: new Column({title: "Not Started"}), cardCollectionView: todoCards});
+    var doingColumn = new ColumnView({el: '#doing',  model: new Column({title: "In Progress"}), cardCollectionView: doingCards});
+    var doneColumn = new ColumnView({el: '#done',  model: new Column({title: "Finished"}), cardCollectionView: doneCards});
  
 } (jQuery));
